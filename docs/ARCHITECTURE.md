@@ -1,30 +1,17 @@
 # Architecture
 
-## Overview
+`@trysac/openapi-style-lint` is a pure TypeScript ESM library for OpenAPI style validation and safe autofixing.
 
-`@trysac/openapi-style-lint` is a small, dependency-free TypeScript library published to npm as ES modules with type
-declarations. Style lint for OpenAPI 3.0 and 3.1 JSON documents with ten rules, RFC 6901 pointers, safe idempotent autofixes and a CLI
+## Design Goals
 
-## Modules
+- **Zero Dependencies**: Pure TypeScript/ESM implementation.
+- **Safe Autofixing**: Fixes are non-destructive and idempotent (e.g., trimming trailing slashes only if the target path doesn't already exist).
+- **Resource Constraints**: Iterative depth traversal (cap 128) and CLI file size limit (10 MiB) to prevent stack overflows and memory exhaustion.
+- **RFC 6901 Compliance**: All findings return exact JSON pointers.
 
-| Module | Responsibility |
-|---|---|
-| `src/index.ts` | Public API. Everything consumers import is exported from here. |
+## Module Structure
 
-Add a row when you add a module. Internal modules are not re-exported unless they are part of the public API.
-
-## Boundaries
-
-- No runtime dependencies by default; any addition is justified in [STACK.md](STACK.md).
-- No I/O at import time. Functions are pure unless their documentation says otherwise.
-- Errors are thrown as built-in error types (`TypeError`, `RangeError`) with actionable messages.
-
-## Build and distribution
-
-`npm run build` compiles `src/` to `dist/` with `tsconfig.build.json`. Only `dist/` is published
-(`files` in `package.json`).
-
-## Decisions
-
-Architectural decisions are recorded in [decisions/](decisions/), starting with
-[0001](decisions/0001-record-architecture-decisions.md).
+- `src/linter.ts`: Core validation engine checking OAS001-OAS010.
+- `src/fixer.ts`: Four-stage fix pipeline (OAS004 -> OAS002 -> OAS006 -> OAS008) with re-linting for verification.
+- `src/cli.ts`: IO handling, size limits, and command execution.
+- `src/utils.ts`: String casing utilities, RFC 9110 status table, and iterative tree traversal.

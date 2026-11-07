@@ -9,4 +9,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Add OpenAPI 3.0/3.1 style linter and safe autofixer with 10 rules, RFC 6901 pointers, and CLI.
 - Initial project structure from the factory utility template.

@@ -1,0 +1,22 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Complex Service",
+    "version": "2.0.0"
+  },
+  "paths": {
+    "/api/v1/orders/": {
+      "post": {
+        "operationId": "create_order_request",
+        "summary": "Creates order",
+        "tags": ["checkout"],
+        "responses": {
+          "201": {
+            "description": "Order created"
+          },
+          "400": {}
+        }
+      }
+    }
+  }
+}

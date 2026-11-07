@@ -1,33 +1,31 @@
-# Project record: openapi-style-lint
+# Project Record
 
 ## Objective
 
-Style lint for OpenAPI 3.0 and 3.1 JSON documents with ten rules, RFC 6901 pointers, safe idempotent autofixes and a CLI
-
-State the measurable outcome this utility must deliver and who it is for.
+Provide lightweight, fast, and deterministic style linting and safe autofixing for OpenAPI 3.0/3.1 documents with zero dependencies.
 
 ## Scope
 
-In scope:
+- Validation of OpenAPI 3.0.x and 3.1.x JSON specifications.
+- Implementation of 10 fixed style rules (OAS001-OAS010).
+- CLI tool for linting and safe autofixing.
 
-- The public API documented in the README.
+## Out of Scope
 
-Out of scope:
+- YAML parsing (users are expected to convert to JSON).
+- Custom rule engines or plugin systems.
+- Automated breaking change detection.
 
-- List what this utility deliberately does not do.
+## Factory run u149 (measured from API usage)
 
-## Timeline
+| Phase | Model | Batch | Input | Output | Cache write | Cache read | Cost (USD) |
+|---|---|---|---|---|---|---|---|
+| generation | gemini-3.8-flash | yes | 4584 | 20672 | 0 | 0 | 0.0405 |
+| fix-1 | gemini-3.8-flash | no | 48199 | 2134 | 0 | 203608 | 0.0594 |
+| fix-2 | gemini-3.8-flash | no | 27664 | 614 | 0 | 67627 | 0.0281 |
+| fix-3 | gemini-3.8-flash | no | 74172 | 1743 | 0 | 524216 | 0.1015 |
+| fix-4 | gemini-3.8-flash | no | 20156 | 581 | 0 | 15469 | 0.0185 |
+| audit | gemini-3.1-flash-lite | no | 91079 | 542 | 0 | 270593 | 0.0303 |
+| docs | gemini-3.1-flash-lite | no | 20781 | 1700 | 0 | 0 | 0.0077 |
 
-| Date | Milestone |
-|---|---|
-| 2026 | Repository created from the factory utility template. |
-
-## Effort metrics
-
-Measured values only. Leave "pending measurement" until a real figure is recorded; never estimate here.
-
-| Metric | Value | Source |
-|---|---|---|
-| Tokens (input / output) | pending measurement | factory ledger |
-| Hours (human) | pending measurement | time log |
-| Cost (USD) | pending measurement | factory ledger |
+Total: $0.2861. Prices: Anthropic list prices.

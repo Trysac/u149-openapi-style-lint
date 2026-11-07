@@ -1,55 +1,42 @@
-# openapi-style-lint
+# @trysac/openapi-style-lint
 
-[![npm version](https://img.shields.io/npm/v/@trysac/openapi-style-lint.svg)](https://www.npmjs.com/package/@trysac/openapi-style-lint)
-[![license: MIT](https://img.shields.io/npm/l/@trysac/openapi-style-lint.svg)](LICENSE)
-[![CI](https://github.com/Trysac/u149-openapi-style-lint/actions/workflows/ci.yml/badge.svg)](https://github.com/Trysac/u149-openapi-style-lint/actions/workflows/ci.yml)
+Style lint and safe autofixer for OpenAPI 3.0 and 3.1 JSON documents. Provides 10 fixed style rules, RFC 6901 JSON pointer tracking, idempotent safe autofixes, and a zero-dependency CLI.
 
-Style lint for OpenAPI 3.0 and 3.1 JSON documents with ten rules, RFC 6901 pointers, safe idempotent autofixes and a CLI
+## The Problem
 
-## Problem
+API style guides often demand consistent patterns like camelCase for operationIds, kebab-case for paths, and mandatory response descriptions. Manual enforcement is error-prone, and existing linters are frequently heavy rule engines with complex configuration overhead.
 
-Describe in two or three sentences the concrete problem this utility solves, who hits it, and why existing
-packages do not solve it well. Keep it factual; link to an issue or decision record when there is one.
+## Installation
 
-## Install
-
-```sh
+```bash
 npm install @trysac/openapi-style-lint
 ```
 
-Requires Node.js 20 or newer. The package ships ES modules with TypeScript declarations.
+## Usage Example
 
-## Usage
+```typescript
+import { fix, lint } from "@trysac/openapi-style-lint";
 
-```ts
-import { greet } from "@trysac/openapi-style-lint";
+const doc = { openapi: "3.0.3", info: { title: "API", version: "1.0" }, paths: { "/users/": {} } };
+const findings = lint(doc);
+// Findings: [{ rule: 'OAS004', severity: 'error', pointer: '/paths/~1users~1', message: "Path '/users/' has a trailing slash", fixable: true }]
 
-// Build a greeting; surrounding whitespace is ignored.
-const message = greet("  Ada ");
-console.log(message); // "Hello, Ada!"
-
-try {
-  greet("   ");
-} catch (error) {
-  console.error((error as Error).message); // "name must not be empty"
-}
+const { doc: fixed, applied } = fix(doc);
+// 'fixed' paths key: "/users"
 ```
 
-## API
+## Public API Summary
 
-| Export | Signature | Description |
-|---|---|---|
-| `greet` | `(name: string) => string` | Placeholder API; replace it with the real one. |
+- `lint(doc: unknown, opts?: LintOptions): Finding[]`: Validates OpenAPI 3.0/3.1 JSON.
+- `fix(doc: unknown, opts?: LintOptions): { doc: unknown, applied: AppliedFix[] }`: Applies safe, non-destructive fixes. Uses `structuredClone` to keep input immutable.
+- `LintError`: Thrown for structural issues (unsupported_version, invalid_document, too_deep).
+- Options: Configure rule severities (`error`, `warn`, `off`).
+- CLI: `npx openapi-style-lint <lint|fix> <path>` with 10 MiB input limit and standard exit codes (0 clean, 1 errors, 2 usage/IO).
 
-## Development
+## Why not Spectral or Redocly?
 
-```sh
-npm install
-npm run check   # lint, format, types, tests with coverage, docs, secrets
-```
+`@trysac/openapi-style-lint` offers 10 specific, fixed style rules and guaranteed safe, idempotent autofixes without external rule engines or configuration dependency bloat.
 
-See [AGENTS.md](AGENTS.md) for the full command list and [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow.
+## Security
 
-## License
-
-[MIT](LICENSE) © 2026 Miguel Gomez
+See [docs/SECURITY.md](docs/SECURITY.md) for the threat model.
