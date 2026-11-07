@@ -1,0 +1,44 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Sample Pet Store API",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "pets"
+    }
+  ],
+  "paths": {
+    "/pets/": {
+      "get": {
+        "operationId": "list_pets",
+        "summary": "List all pets",
+        "tags": ["pets", "admin"],
+        "responses": {
+          "200": {
+            "description": "A paged array of pets"
+          },
+          "404": {}
+        }
+      }
+    },
+    "/pets/{petId}": {
+      "parameters": [
+        {
+          "name": "petId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "operationId": "get_pet_by_id",
+        "summary": "Get a pet",
+        "tags": ["pets"],
+        "responses": {
+          "default": {}
+        }
+      }
+    }
+  }
+}
