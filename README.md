@@ -8,9 +8,15 @@ API style guides often demand consistent patterns like camelCase for operationId
 
 ## Installation
 
-```bash
-npm install @trysac/openapi-style-lint
+Not published to npm yet. Build it from a clone, then install it from the local path:
+
+```sh
+git clone https://github.com/Trysac/u149-openapi-style-lint.git
+cd u149-openapi-style-lint && npm ci && npm run build
+cd ../your-project && npm install ../u149-openapi-style-lint
 ```
+
+Imports keep the package name: `import { ... } from "@trysac/openapi-style-lint"`.
 
 ## Usage Example
 
